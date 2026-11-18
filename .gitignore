@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# C++ / CMake / Visual Studio
+build/
+out/
+.vs/
+*.pyd
+*.dll
+*.exe
+*.pdb
+
+# IDE
+.idea/
