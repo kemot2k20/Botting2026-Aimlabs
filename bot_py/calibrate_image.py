@@ -30,7 +30,7 @@ def main() -> None:
     image_path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_IMAGE
     full_img = cv2.imread(str(image_path))
     if full_img is None:
-        raise FileNotFoundError(f"Nie udało się wczytać obrazu: {image_path.resolve()}")
+        raise FileNotFoundError(f"Can't load the image: {image_path.resolve()}")
 
     roi_frame = crop_center_roi(full_img, ROI_SIZE)
     roi_h, roi_w = roi_frame.shape[:2]
@@ -73,7 +73,7 @@ def main() -> None:
             cv2.line(debug_view, (cx, cy), (tx, ty), (0, 255, 255), 2)
             info = f"dx:{target.dx:+.0f} dy:{target.dy:+.0f} area:{target.area}"
         else:
-            info = "Brak celu"
+            info = "No target"
 
         cv2.putText(
             debug_view,
@@ -85,13 +85,12 @@ def main() -> None:
             2,
         )
 
-        # Sklejenie podglądu i maski w jeden obraz
         mask_bgr = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
         combined = np.hstack([debug_view, mask_bgr])
         cv2.imshow(WIN_NAME, combined)
 
         if cv2.waitKey(30) & 0xFF == ord("q"):
-            print("\n--- Skalibrowane wartości ---")
+            print("\n--- Calibrated values ---")
             print(f"hsv_lower = ({h_min}, {s_min}, {v_min})")
             print(f"hsv_upper = ({h_max}, {s_max}, {v_max})")
             print(f"min_area  = {detector.min_area}")
